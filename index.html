@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Soccer Picks — World Cup 2026 Sweepstake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .hero {
+    background: linear-gradient(rgba(60, 59, 110, 0.85), rgba(60, 59, 110, 0.85)),
+                url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1600') center/cover;
+    color: var(--white);
+    padding: 96px 32px 80px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .hero h1 .picks { color: var(--red); display: block; }
+  .hero-tagline { font-size: 20px; max-width: 600px; margin: 24px auto 40px; opacity: 0.95; }
+  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+  .step { text-align: center; padding: 24px; }
+  .step-num {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 64px;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .step p { font-size: 15px; }
+
+  .prize-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .prize-card {
+    background: var(--white);
+    border-top: 6px solid var(--blue);
+    padding: 32px 24px;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(60, 59, 110, 0.08);
+  }
+  .prize-card.first { border-top-color: var(--red); }
+  .prize-card.third { border-top-color: var(--green); }
+  .prize-rank {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .prize-card.first .prize-rank { color: var(--red); }
+  .prize-card.second .prize-rank { color: var(--blue); }
+  .prize-card.third .prize-rank { color: var(--green); }
+  .prize-amount { font-weight: 600; font-size: 36px; color: var(--blue); margin: 12px 0; }
+  .prize-desc { font-size: 14px; }
+
+  .top5-table {
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(60, 59, 110, 0.08);
+    border: 1px solid var(--border);
+  }
+  .top5-table table { width: 100%; border-collapse: collapse; }
+  .top5-table th {
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 16px;
+    text-align: left;
+  }
+  .top5-table td { padding: 14px 16px; border-bottom: 1px solid #E5E7EB; font-size: 15px; font-weight: 500; }
+  .top5-table tbody tr:last-child td { border-bottom: none; }
+  .top5-table tbody tr.rank-1 { background: rgba(206, 17, 38, 0.06); }
+  .rank-cell { font-family: 'Saira Extra Condensed', sans-serif; font-weight: 800; font-size: 22px; color: var(--blue); width: 60px; }
+  .rank-1 .rank-cell { color: var(--red); }
+  .rank-2 .rank-cell { color: var(--blue); }
+  .rank-3 .rank-cell { color: var(--green); }
+  .points-cell { font-weight: 600; color: var(--blue); text-align: right; font-size: 18px; }
+  .view-all-btn { display: block; text-align: center; margin: 32px auto 0; width: fit-content; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="Summer Soccer Picks logo">
+    <span class="nav-brand-text">Summer<br>Soccer <span class="picks-text">Picks</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="enter.html">Enter</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="rules.html">Rules</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <h1>Summer Soccer<span class="picks">Picks</span></h1>
+  <p class="hero-tagline">The 2026 World Cup sweepstake for friends and family. Pick your teams. Climb the table. Take the prize.</p>
+  <div class="cta-row">
+    <a href="enter.html" class="btn btn-primary">Enter Now</a>
+    <a href="leaderboard.html" class="btn btn-secondary">View Leaderboard</a>
+  </div>
+</section>
+
+<section class="section section-white with-watermark">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Choose Your Teams</h3>
+        <p>Pick one team from each of the 8 pots, plus a top goalscorer.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Pay Your Entry Fee</h3>
+        <p>Transfer your entry fee. Details sent on entry.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Earn Points</h3>
+        <p>Score points as your teams progress through the tournament.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Win Prizes</h3>
+        <p>Top three finishers share the pot. Glory awaits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-canvas">
+  <div class="container">
+    <h2 class="section-title">The Prizes</h2>
+    <div class="prize-grid">
+      <div class="prize-card first">
+        <div class="prize-rank">1st Place</div>
+        <div class="prize-amount">£TBC</div>
+        <p class="prize-desc">The lion's share of the pot</p>
+      </div>
+      <div class="prize-card second">
+        <div class="prize-rank">2nd Place</div>
+        <div class="prize-amount">£TBC</div>
+        <p class="prize-desc">A solid runner-up reward</p>
+      </div>
+      <div class="prize-card third">
+        <div class="prize-rank">3rd Place</div>
+        <div class="prize-amount">£TBC</div>
+        <p class="prize-desc">Podium finish bragging rights</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-white with-watermark">
+  <div class="container">
+    <h2 class="section-title">Top 5</h2>
+    <div class="top5-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Entrant</th>
+            <th>Teams</th>
+            <th style="text-align:right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank-1"><td class="rank-cell">1</td><td>Sarah J.</td><td>Brazil, Germany, Croatia, Japan, Senegal, Ghana, South Korea, Tunisia · Mbappé</td><td class="points-cell">—</td></tr>
+          <tr class="rank-2"><td class="rank-cell">2</td><td>Mike P.</td><td>France, Portugal, USA, Norway, Türkiye, Canada, Cabo Verde, Bosnia &amp; Herz. · Haaland</td><td class="points-cell">—</td></tr>
+          <tr class="rank-3"><td class="rank-cell">3</td><td>Dave C.</td><td>Spain, Argentina, Switzerland, Mexico, Sweden, Egypt, South Africa, Qatar · Messi</td><td class="points-cell">—</td></tr>
+          <tr><td class="rank-cell">4</td><td>Lisa T.</td><td>England, Netherlands, Belgium, Uruguay, Austria, Czechia, Jordan, Iraq · Kane</td><td class="points-cell">—</td></tr>
+          <tr><td class="rank-cell">5</td><td>Tom B.</td><td>Brazil, Germany, Morocco, Ecuador, Scotland, Algeria, Saudi Arabia, Australia · Yamal</td><td class="points-cell">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a href="leaderboard.html" class="btn btn-outline view-all-btn">View Full Leaderboard</a>
+    <p style="text-align:center; margin-top:24px; font-size:14px;">Updates after every matchday. Tournament kicks off June 2026.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <img src="logo.png" alt="Summer Soccer Picks" class="footer-logo">
+    <p>&copy; 2026 Summer Soccer Picks · A family &amp; friends sweepstake</p>
+  </div>
+</footer>
+
+</body>
+</html>

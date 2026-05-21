@@ -1,0 +1,246 @@
+/* ===== SUMMER SOCCER PICKS - SHARED STYLES ===== */
+:root {
+  --blue: #3C3B6E;
+  --red: #CE1126;
+  --green: #006847;
+  --canvas: #F4F6F9;
+  --data-grey: #334155;
+  --white: #FFFFFF;
+  --border: rgba(60, 59, 110, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--canvas);
+  color: var(--data-grey);
+  line-height: 1.6;
+}
+
+a { color: var(--blue); }
+
+/* ===== NAV - WHITE HEADER ===== */
+nav {
+  background: var(--white);
+  padding: 10px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(60, 59, 110, 0.08);
+  border-bottom: 3px solid var(--blue);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.nav-brand img {
+  height: 64px;
+  width: auto;
+  display: block;
+}
+
+.nav-brand-text {
+  font-family: 'Saira Extra Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: var(--blue);
+}
+
+.nav-brand-text .picks-text { color: var(--red); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--blue);
+  text-decoration: none;
+  font-family: 'Saira Extra Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.nav-links a:hover { color: var(--red); }
+.nav-links a.active { color: var(--red); }
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--red);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  font-family: 'Saira Extra Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary { background: var(--red); color: var(--white); }
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(206, 17, 38, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+.btn-secondary:hover { background: var(--white); color: var(--blue); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--blue);
+  border: 2px solid var(--blue);
+}
+.btn-outline:hover { background: var(--blue); color: var(--white); }
+
+/* ===== LAYOUT ===== */
+.container { max-width: 1100px; margin: 0 auto; }
+
+.page-header {
+  background: var(--blue);
+  color: var(--white);
+  padding: 56px 32px 48px;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-family: 'Saira Extra Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 6vw, 64px);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.page-header .accent { color: var(--red); }
+
+.page-header p {
+  margin-top: 12px;
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.section { padding: 56px 32px; position: relative; overflow: hidden; }
+.section-white { background: var(--white); }
+.section-canvas { background: var(--canvas); }
+
+/* Watermark logo on white sections (Option B) */
+.section-white.with-watermark::before {
+  content: '';
+  position: absolute;
+  right: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 380px;
+  background-image: url('logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-white.with-watermark > * { position: relative; z-index: 1; }
+
+.section-title {
+  font-family: 'Saira Extra Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 38px;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--green);
+  margin: 12px auto 0;
+}
+
+/* ===== FOOTER (off-white) ===== */
+footer {
+  background: var(--canvas);
+  color: var(--blue);
+  text-align: center;
+  padding: 32px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  border-top: 3px solid var(--blue);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  height: 64px;
+  width: auto;
+}
+
+footer a { color: var(--blue); }
+footer p { color: var(--blue); font-weight: 500; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  nav { padding: 8px 16px; flex-wrap: wrap; gap: 8px; }
+  .nav-brand img { height: 48px; }
+  .nav-brand-text { font-size: 20px; }
+  .nav-links { gap: 14px; width: 100%; justify-content: center; }
+  .nav-links a { font-size: 14px; }
+  .section { padding: 40px 16px; }
+  .section-title { font-size: 30px; }
+  .page-header { padding: 40px 16px 36px; }
+  .section-white.with-watermark::before { width: 240px; height: 240px; right: -60px; opacity: 0.06; }
+}

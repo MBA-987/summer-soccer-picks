@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard — Summer Soccer Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 20px 24px;
+    border-radius: 4px;
+    border-left: 4px solid var(--blue);
+    box-shadow: 0 2px 6px rgba(60, 59, 110, 0.06);
+  }
+
+  .stat-card.red { border-left-color: var(--red); }
+  .stat-card.green { border-left-color: var(--green); }
+
+  .stat-label {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #777;
+  }
+
+  .stat-value {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--blue);
+    line-height: 1.1;
+    margin-top: 4px;
+  }
+
+  .stat-card.red .stat-value { color: var(--red); }
+  .stat-card.green .stat-value { color: var(--green); }
+
+  .leaderboard-wrap {
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(60, 59, 110, 0.08);
+    border: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  .leaderboard-wrap table { width: 100%; border-collapse: collapse; }
+
+  .leaderboard-wrap th {
+    background: var(--blue);
+    color: var(--white);
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  .leaderboard-wrap td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .leaderboard-wrap tbody tr:last-child td { border-bottom: none; }
+  .leaderboard-wrap tbody tr:hover { background: rgba(60, 59, 110, 0.03); }
+  .leaderboard-wrap tbody tr.rank-1 { background: rgba(206, 17, 38, 0.06); }
+  .leaderboard-wrap tbody tr.rank-1:hover { background: rgba(206, 17, 38, 0.1); }
+  .leaderboard-wrap tbody tr.rank-2 { background: rgba(60, 59, 110, 0.04); }
+  .leaderboard-wrap tbody tr.rank-3 { background: rgba(0, 104, 71, 0.05); }
+
+  .rank-cell {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--blue);
+    width: 80px;
+  }
+
+  .rank-1 .rank-cell { color: var(--red); }
+  .rank-2 .rank-cell { color: var(--blue); }
+  .rank-3 .rank-cell { color: var(--green); }
+
+  .teams-cell { font-size: 13px; color: #555; line-height: 1.4; }
+  .goalscorer-tag {
+    display: inline-block;
+    background: rgba(0, 104, 71, 0.1);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .points-cell {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    color: var(--blue);
+    text-align: right;
+    font-size: 18px;
+    width: 100px;
+  }
+
+  .last-updated {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #888;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 700px) {
+    .leaderboard-wrap th, .leaderboard-wrap td { padding: 10px 8px; font-size: 13px; }
+    .rank-cell { font-size: 18px; width: 40px; }
+    .points-cell { font-size: 16px; width: 60px; }
+    .teams-cell { font-size: 11px; }
+    .stat-value { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="Summer Soccer Picks logo">
+    <span class="nav-brand-text">Summer<br>Soccer <span class="picks-text">Picks</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="enter.html">Enter</a></li>
+    <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+    <li><a href="rules.html">Rules</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <h1>The <span class="accent">Leaderboard</span></h1>
+  <p>Live standings, updated after every matchday.</p>
+</header>
+
+<section class="section section-white with-watermark">
+  <div class="container">
+
+    <div class="stats-row">
+      <div class="stat-card green">
+        <div class="stat-label">Total Entries</div>
+        <div class="stat-value">12</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Prize Pot</div>
+        <div class="stat-value">£TBC</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Highest Score</div>
+        <div class="stat-value">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Matches Played</div>
+        <div class="stat-value">0 / 104</div>
+      </div>
+    </div>
+
+    <div class="leaderboard-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Entrant</th>
+            <th>Teams</th>
+            <th style="text-align:right;">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rank-1">
+            <td class="rank-cell">1</td>
+            <td>Sarah Jones</td>
+            <td class="teams-cell">Brazil, Germany, Croatia, Japan, Senegal, Ghana, South Korea, Tunisia<br><span class="goalscorer-tag">⚽ Mbappé</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr class="rank-2">
+            <td class="rank-cell">2</td>
+            <td>Mike Peterson</td>
+            <td class="teams-cell">France, Portugal, USA, Norway, Türkiye, Canada, Cabo Verde, Bosnia &amp; Herzegovina<br><span class="goalscorer-tag">⚽ Haaland</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr class="rank-3">
+            <td class="rank-cell">3</td>
+            <td>Dave Carter</td>
+            <td class="teams-cell">Spain, Argentina, Switzerland, Mexico, Sweden, Egypt, South Africa, Qatar<br><span class="goalscorer-tag">⚽ Messi</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">4</td>
+            <td>Lisa Thompson</td>
+            <td class="teams-cell">England, Netherlands, Belgium, Uruguay, Austria, Czechia, Jordan, Iraq<br><span class="goalscorer-tag">⚽ Kane</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">5</td>
+            <td>Tom Baker</td>
+            <td class="teams-cell">Brazil, Germany, Morocco, Ecuador, Scotland, Algeria, Saudi Arabia, Australia<br><span class="goalscorer-tag">⚽ Yamal</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">6</td>
+            <td>Emma Wilson</td>
+            <td class="teams-cell">France, Argentina, USA, Colombia, Côte d'Ivoire, New Zealand, Haiti, Congo DR<br><span class="goalscorer-tag">⚽ Vinicius Jr</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">7</td>
+            <td>James Robinson</td>
+            <td class="teams-cell">England, Portugal, Croatia, Japan, Senegal, Paraguay, IR Iran, Panama<br><span class="goalscorer-tag">⚽ De Bruyne</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">8</td>
+            <td>Anna Lewis</td>
+            <td class="teams-cell">Spain, Netherlands, USA, Uruguay, Sweden, Egypt, IR Iran, Curaçao<br><span class="goalscorer-tag">⚽ Lewandowski</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">9</td>
+            <td>Chris Martin</td>
+            <td class="teams-cell">England, Germany, Belgium, Norway, Scotland, Ghana, South Africa, South Korea<br><span class="goalscorer-tag">⚽ Foden</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">10</td>
+            <td>Helen Davies</td>
+            <td class="teams-cell">Brazil, Argentina, Morocco, Mexico, Türkiye, Algeria, Jordan, Tunisia<br><span class="goalscorer-tag">⚽ Pedri</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">11</td>
+            <td>Paul Wright</td>
+            <td class="teams-cell">France, Portugal, Switzerland, Ecuador, Austria, Czechia, Cabo Verde, Qatar<br><span class="goalscorer-tag">⚽ Rodrygo</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+          <tr>
+            <td class="rank-cell">12</td>
+            <td>Kate Edwards</td>
+            <td class="teams-cell">Spain, Netherlands, Croatia, Colombia, Senegal, Paraguay, Saudi Arabia, Uzbekistan<br><span class="goalscorer-tag">⚽ Mané</span></td>
+            <td class="points-cell">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="last-updated">Last updated: Tournament not yet started · Entries close 10 June 2026</p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <img src="logo.png" alt="Summer Soccer Picks" class="footer-logo">
+    <p>&copy; 2026 Summer Soccer Picks · A family &amp; friends sweepstake</p>
+  </div>
+</footer>
+
+</body>
+</html>

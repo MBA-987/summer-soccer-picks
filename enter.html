@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter — Summer Soccer Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .entry-form {
+    background: var(--white);
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(60, 59, 110, 0.08);
+    border: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-group { margin-bottom: 24px; }
+
+  .form-group label {
+    display: block;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: var(--canvas);
+    color: var(--data-grey);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--red);
+    background: var(--white);
+  }
+
+  .pot-section {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 2px solid var(--border);
+  }
+
+  .pot-intro {
+    background: rgba(60, 59, 110, 0.04);
+    border-left: 4px solid var(--blue);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+
+  .pot { margin-bottom: 28px; }
+
+  .pot-label {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .pot-name {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .pot-hint { font-size: 13px; color: #777; font-style: italic; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  .team-option {
+    background: var(--canvas);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--data-grey);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .team-option:hover { border-color: var(--red); background: var(--white); }
+
+  .team-option.selected {
+    background: var(--red);
+    color: var(--white);
+    border-color: var(--red);
+    font-weight: 600;
+  }
+
+  .goalscorer-section {
+    margin-top: 32px;
+    padding: 24px;
+    background: rgba(0, 104, 71, 0.05);
+    border-left: 4px solid var(--green);
+    border-radius: 4px;
+  }
+
+  .goalscorer-section .pot-name { color: var(--green); }
+  .goalscorer-section select { margin-top: 8px; }
+
+  .your-picks {
+    background: var(--blue);
+    color: var(--white);
+    padding: 24px;
+    border-radius: 4px;
+    margin-top: 32px;
+  }
+
+  .your-picks-title {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    color: #FF8C95;
+  }
+
+  .picks-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+  }
+
+  .pick-slot {
+    background: rgba(255,255,255,0.1);
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .pick-slot.goalscorer-slot {
+    background: rgba(0, 104, 71, 0.5);
+    grid-column: 1 / -1;
+  }
+
+  .pick-slot .pot-num {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.75;
+    display: block;
+  }
+
+  .pick-slot .team-name { font-weight: 600; font-size: 16px; margin-top: 2px; }
+  .pick-slot .empty { font-style: italic; opacity: 0.5; font-size: 14px; margin-top: 2px; }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .progress-bar .progress-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar .progress-fill {
+    height: 100%;
+    background: var(--red);
+    transition: width 0.2s;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #FF8C95;
+    white-space: nowrap;
+  }
+
+  .submit-row { margin-top: 32px; text-align: center; }
+  .submit-row .btn { padding: 16px 48px; font-size: 20px; }
+
+  .payment-note {
+    background: rgba(0, 104, 71, 0.08);
+    border-left: 4px solid var(--green);
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+
+  .payment-note strong { color: var(--green); }
+
+  @media (max-width: 600px) {
+    .entry-form { padding: 24px 20px; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="Summer Soccer Picks logo">
+    <span class="nav-brand-text">Summer<br>Soccer <span class="picks-text">Picks</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="enter.html" class="active">Enter</a></li>
+    <li><a href="leaderboard.html">Leaderboard</a></li>
+    <li><a href="rules.html">Rules</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <h1>Make Your <span class="accent">Picks</span></h1>
+  <p>Pick one team from each of the 8 pots, plus a top goalscorer.</p>
+</header>
+
+<section class="section section-white with-watermark">
+  <div class="entry-form">
+
+    <div class="form-group">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" placeholder="e.g. Sarah Jones">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com">
+    </div>
+
+    <div class="pot-section">
+      <div class="pot-intro">
+        <strong>How this works:</strong> Click a team to select it. Click again to deselect. You must pick exactly one team from each of the 8 pots, plus a top goalscorer.
+      </div>
+
+      <div class="pot" data-pot="1">
+        <div class="pot-label"><span class="pot-name">Pot 1</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Brazil</div><div class="team-option">England</div><div class="team-option">France</div><div class="team-option">Spain</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="2">
+        <div class="pot-label"><span class="pot-name">Pot 2</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Argentina</div><div class="team-option">Germany</div><div class="team-option">Netherlands</div><div class="team-option">Portugal</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="3">
+        <div class="pot-label"><span class="pot-name">Pot 3</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Belgium</div><div class="team-option">Croatia</div><div class="team-option">Morocco</div><div class="team-option">Switzerland</div><div class="team-option">USA</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="4">
+        <div class="pot-label"><span class="pot-name">Pot 4</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Colombia</div><div class="team-option">Ecuador</div><div class="team-option">Japan</div><div class="team-option">Mexico</div><div class="team-option">Norway</div><div class="team-option">Uruguay</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="5">
+        <div class="pot-label"><span class="pot-name">Pot 5</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Austria</div><div class="team-option">Côte d'Ivoire</div><div class="team-option">Scotland</div><div class="team-option">Senegal</div><div class="team-option">Sweden</div><div class="team-option">Türkiye</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="6">
+        <div class="pot-label"><span class="pot-name">Pot 6</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Algeria</div><div class="team-option">Canada</div><div class="team-option">Czechia</div><div class="team-option">Egypt</div><div class="team-option">Ghana</div><div class="team-option">New Zealand</div><div class="team-option">Paraguay</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="7">
+        <div class="pot-label"><span class="pot-name">Pot 7</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Cabo Verde</div><div class="team-option">Haiti</div><div class="team-option">IR Iran</div><div class="team-option">Jordan</div><div class="team-option">Saudi Arabia</div><div class="team-option">South Africa</div><div class="team-option">South Korea</div>
+        </div>
+      </div>
+
+      <div class="pot" data-pot="8">
+        <div class="pot-label"><span class="pot-name">Pot 8</span><span class="pot-hint">Pick one</span></div>
+        <div class="team-grid">
+          <div class="team-option">Australia</div><div class="team-option">Bosnia &amp; Herzegovina</div><div class="team-option">Congo DR</div><div class="team-option">Curaçao</div><div class="team-option">Iraq</div><div class="team-option">Panama</div><div class="team-option">Qatar</div><div class="team-option">Tunisia</div><div class="team-option">Uzbekistan</div>
+        </div>
+      </div>
+
+      <div class="goalscorer-section">
+        <div class="pot-label">
+          <span class="pot-name">Golden Boot Winner</span>
+          <span class="pot-hint">Predict the tournament's leading scorer</span>
+        </div>
+        <label for="goalscorer" style="font-size:13px; text-transform:none; letter-spacing:0; font-weight:500; color:#666; margin-bottom:4px;">Enter a player's name:</label>
+        <input type="text" id="goalscorer" placeholder="e.g. Kylian Mbappé">
+      </div>
+    </div>
+
+    <div class="your-picks">
+      <div class="your-picks-title">Your Squad</div>
+      <div class="progress-bar">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="progress-text" id="progressText">0 / 9</span>
+      </div>
+      <div class="picks-list">
+        <div class="pick-slot" data-slot="1"><span class="pot-num">Pot 1</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="2"><span class="pot-num">Pot 2</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="3"><span class="pot-num">Pot 3</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="4"><span class="pot-num">Pot 4</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="5"><span class="pot-num">Pot 5</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="6"><span class="pot-num">Pot 6</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="7"><span class="pot-num">Pot 7</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot" data-slot="8"><span class="pot-num">Pot 8</span><div class="team-name empty">—</div></div>
+        <div class="pick-slot goalscorer-slot" data-slot="goalscorer"><span class="pot-num">Golden Boot Winner</span><div class="team-name empty">—</div></div>
+      </div>
+    </div>
+
+    <div class="payment-note">
+      <strong>Payment:</strong> After submitting, you'll receive bank transfer details by email. Your entry is confirmed only once payment is received.
+    </div>
+
+    <div class="submit-row">
+      <button class="btn btn-primary" id="submitBtn" disabled>Submit Entry</button>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <img src="logo.png" alt="Summer Soccer Picks" class="footer-logo">
+    <p>&copy; 2026 Summer Soccer Picks · A family &amp; friends sweepstake</p>
+  </div>
+</footer>
+
+<script>
+  // Team picker logic
+  document.querySelectorAll('.pot').forEach(pot => {
+    pot.querySelectorAll('.team-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const wasSelected = opt.classList.contains('selected');
+        pot.querySelectorAll('.team-option').forEach(o => o.classList.remove('selected'));
+        if (!wasSelected) opt.classList.add('selected');
+        updateYourPicks();
+      });
+    });
+  });
+
+  document.getElementById('goalscorer').addEventListener('input', updateYourPicks);
+
+  function updateYourPicks() {
+    let count = 0;
+    document.querySelectorAll('.pot').forEach(pot => {
+      const potNum = pot.dataset.pot;
+      const selected = pot.querySelector('.team-option.selected');
+      const slot = document.querySelector(`.pick-slot[data-slot="${potNum}"] .team-name`);
+      if (selected) {
+        slot.textContent = selected.textContent;
+        slot.classList.remove('empty');
+        count++;
+      } else {
+        slot.textContent = '—';
+        slot.classList.add('empty');
+      }
+    });
+    const goalscorer = document.getElementById('goalscorer').value.trim();
+    const gsSlot = document.querySelector('.pick-slot[data-slot="goalscorer"] .team-name');
+    if (goalscorer) {
+      gsSlot.textContent = goalscorer;
+      gsSlot.classList.remove('empty');
+      count++;
+    } else {
+      gsSlot.textContent = '—';
+      gsSlot.classList.add('empty');
+    }
+    document.getElementById('progressText').textContent = `${count} / 9`;
+    document.getElementById('progressFill').style.width = `${(count / 9) * 100}%`;
+    document.getElementById('submitBtn').disabled = (count < 9);
+  }
+</script>
+
+</body>
+</html>
