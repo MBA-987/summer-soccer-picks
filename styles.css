@@ -166,25 +166,10 @@ nav {
 .section-white { background: var(--white); }
 .section-canvas { background: var(--canvas); }
 
-/* Watermark logo on white sections (Option B) */
+/* Watermark on white sections (no longer used - keep CSS for backward compatibility) */
 .section-white.with-watermark::before {
-  content: '';
-  position: absolute;
-  right: -80px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 380px;
-  height: 380px;
-  background-image: url('logo.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
-
-.section-white.with-watermark > * { position: relative; z-index: 1; }
 
 .section-title {
   font-family: 'Saira Extra Condensed', sans-serif;
@@ -242,5 +227,4 @@ footer p { color: var(--blue); font-weight: 500; }
   .section { padding: 40px 16px; }
   .section-title { font-size: 30px; }
   .page-header { padding: 40px 16px 36px; }
-  .section-white.with-watermark::before { width: 240px; height: 240px; right: -60px; opacity: 0.06; }
 }

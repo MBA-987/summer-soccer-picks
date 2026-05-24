@@ -288,6 +288,12 @@
     const tbody = document.querySelector('.leaderboard-wrap table tbody');
     // Clear placeholders immediately so they don't flash
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Loading leaderboard...</td></tr>';
+    // Also reset stat cards so the old numbers don't show
+    const stats = document.querySelectorAll('.stat-value');
+    stats[0].textContent = '—';
+    stats[1].textContent = '—';
+    stats[2].textContent = '—';
+    stats[3].textContent = '—';
 
     try {
       // Fetch both leaderboard and fixtures in parallel
