@@ -285,25 +285,39 @@
   const API_URL = 'https://script.google.com/macros/s/AKfycbx59PvDrZEat3nd-LGz3Oq8wRsLDxdtkxiecmA4s1HIXexAfXqKK4iffjiV_LwNdW_TRQ/exec';
 
   async function loadLeaderboard() {
+    const tbody = document.querySelector('.leaderboard-wrap table tbody');
+    // Clear placeholders immediately so they don't flash
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Loading leaderboard...</td></tr>';
+
     try {
-      const res = await fetch(API_URL + '?action=leaderboard');
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error || 'Unknown error');
-      renderLeaderboard(data.leaderboard);
+      // Fetch both leaderboard and fixtures in parallel
+      const [lbRes, fxRes] = await Promise.all([
+        fetch(API_URL + '?action=leaderboard'),
+        fetch(API_URL + '?action=fixtures'),
+      ]);
+      const lbData = await lbRes.json();
+      const fxData = await fxRes.json();
+      if (!lbData.ok) throw new Error(lbData.error || 'Leaderboard error');
+      renderLeaderboard(lbData.leaderboard, fxData.fixtures || []);
     } catch (err) {
       console.error('Failed to load leaderboard:', err);
-      // Keep the sample data showing on failure — better than a broken page
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Could not load leaderboard. Please refresh.</td></tr>';
     }
   }
 
-  function renderLeaderboard(entries) {
+  function renderLeaderboard(entries, fixtures) {
     const tbody = document.querySelector('.leaderboard-wrap table tbody');
+    const stats = document.querySelectorAll('.stat-value');
+
+    // Count matches played
+    const matchesPlayed = fixtures.filter(f => f.homeScore !== null && f.awayScore !== null).length;
+
     if (!entries || entries.length === 0) {
       tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">No entries yet — be the first!</td></tr>';
-      // Update stats too
-      document.querySelectorAll('.stat-value')[0].textContent = '0';
-      document.querySelectorAll('.stat-value')[1].textContent = '£0';
-      document.querySelectorAll('.stat-value')[2].textContent = '—';
+      stats[0].textContent = '0';
+      stats[1].textContent = '£0';
+      stats[2].textContent = '—';
+      stats[3].textContent = matchesPlayed + ' / 104';
       return;
     }
 
@@ -323,10 +337,10 @@
     tbody.innerHTML = rows;
 
     // Update stat cards
-    const stats = document.querySelectorAll('.stat-value');
-    stats[0].textContent = entries.length;                       // Total Entries
-    stats[1].textContent = '£' + (entries.length * 10);          // Prize Pot
-    stats[2].textContent = entries[0]?.points || '—';            // Highest Score
+    stats[0].textContent = entries.length;
+    stats[1].textContent = '£' + (entries.length * 10);
+    stats[2].textContent = entries[0]?.points || '—';
+    stats[3].textContent = matchesPlayed + ' / 104';
 
     // Update last-updated text
     const lastUpdated = document.querySelector('.last-updated');

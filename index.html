@@ -121,7 +121,7 @@
 
 <section class="hero">
   <h1>Summer Soccer<span class="picks">Picks</span></h1>
-  <p class="hero-tagline">The 2026 World Cup sweepstake for friends and family. Pick your teams. Climb the table. Take the prize.</p>
+  <p class="hero-tagline">The 2026 World Cup sweepstake for friends and family. £10 to enter. Pick your teams. Climb the table. Take the prize.</p>
   <div class="cta-row">
     <a href="enter.html" class="btn btn-primary">Enter Now</a>
     <a href="leaderboard.html" class="btn btn-secondary">View Leaderboard</a>
@@ -162,18 +162,18 @@
     <div class="prize-grid">
       <div class="prize-card first">
         <div class="prize-rank">1st Place</div>
-        <div class="prize-amount">£TBC</div>
-        <p class="prize-desc">The lion's share of the pot</p>
+        <div class="prize-amount">60%</div>
+        <p class="prize-desc">of the pot</p>
       </div>
       <div class="prize-card second">
         <div class="prize-rank">2nd Place</div>
-        <div class="prize-amount">£TBC</div>
-        <p class="prize-desc">A solid runner-up reward</p>
+        <div class="prize-amount">30%</div>
+        <p class="prize-desc">of the pot</p>
       </div>
       <div class="prize-card third">
         <div class="prize-rank">3rd Place</div>
-        <div class="prize-amount">£TBC</div>
-        <p class="prize-desc">Podium finish bragging rights</p>
+        <div class="prize-amount">10%</div>
+        <p class="prize-desc">of the pot</p>
       </div>
     </div>
   </div>
@@ -194,7 +194,7 @@
         </thead>
         <tbody>
           <tr class="rank-1"><td class="rank-cell">1</td><td>Sarah J.</td><td>Brazil, Germany, Croatia, Japan, Senegal, Ghana, South Korea, Tunisia · Mbappé</td><td class="points-cell">—</td></tr>
-          <tr class="rank-2"><td class="rank-cell">2</td><td>Mike P.</td><td>France, Portugal, USA, Norway, Türkiye, Canada, Cabo Verde, Bosnia &amp; Herz. · Haaland</td><td class="points-cell">—</td></tr>
+          <tr class="rank-2"><td class="rank-cell">2</td><td>Mike P.</td><td>France, Portugal, USA, Norway, Türkiye, Canada, Cabo Verde, Bosnia &amp; Herzegovina · Haaland</td><td class="points-cell">—</td></tr>
           <tr class="rank-3"><td class="rank-cell">3</td><td>Dave C.</td><td>Spain, Argentina, Switzerland, Mexico, Sweden, Egypt, South Africa, Qatar · Messi</td><td class="points-cell">—</td></tr>
           <tr><td class="rank-cell">4</td><td>Lisa T.</td><td>England, Netherlands, Belgium, Uruguay, Austria, Czechia, Jordan, Iraq · Kane</td><td class="points-cell">—</td></tr>
           <tr><td class="rank-cell">5</td><td>Tom B.</td><td>Brazil, Germany, Morocco, Ecuador, Scotland, Algeria, Saudi Arabia, Australia · Yamal</td><td class="points-cell">—</td></tr>
@@ -212,6 +212,46 @@
     <p>&copy; 2026 Summer Soccer Picks · A family &amp; friends sweepstake</p>
   </div>
 </footer>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx59PvDrZEat3nd-LGz3Oq8wRsLDxdtkxiecmA4s1HIXexAfXqKK4iffjiV_LwNdW_TRQ/exec';
+
+  async function loadTop5() {
+    const tbody = document.querySelector('.top5-table table tbody');
+    // Show loading state immediately
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:24px; color:#888; font-style:italic;">Loading...</td></tr>';
+    try {
+      const res = await fetch(API_URL + '?action=leaderboard');
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error);
+      renderTop5(data.leaderboard.slice(0, 5));
+    } catch (err) {
+      console.error('Failed to load top 5:', err);
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:24px; color:#888; font-style:italic;">Could not load entries.</td></tr>';
+    }
+  }
+
+  function renderTop5(entries) {
+    const tbody = document.querySelector('.top5-table table tbody');
+    if (!entries || entries.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:24px; color:#888; font-style:italic;">No entries yet — be the first!</td></tr>';
+      return;
+    }
+    tbody.innerHTML = entries.map((e, i) => {
+      const rank = i + 1;
+      const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      const teamsAndGB = `${escapeHtml(e.teams)} · ${escapeHtml(e.goldenBoot)}`;
+      return `<tr class="${rankClass}"><td class="rank-cell">${rank}</td><td>${escapeHtml(e.entrant)}</td><td>${teamsAndGB}</td><td class="points-cell">${e.points || 0}</td></tr>`;
+    }).join('');
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  loadTop5();
+</script>
 
 </body>
 </html>

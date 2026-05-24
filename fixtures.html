@@ -76,27 +76,82 @@
   }
 
   .group-teams {
-    padding: 12px 16px;
+    padding: 8px 12px 12px;
     background: rgba(60, 59, 110, 0.03);
     border-bottom: 1px solid var(--border);
   }
 
-  .group-team-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    font-size: 14px;
-    font-weight: 500;
+  .group-standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
   }
 
-  .group-team-row + .group-team-row { border-top: 1px solid rgba(60, 59, 110, 0.06); }
-
-  .group-team-row .pts {
+  .group-standings-table thead th {
     font-family: 'Saira Extra Condensed', sans-serif;
     font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #777;
+    text-align: right;
+    padding: 6px 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .group-standings-table thead th.team-col {
+    text-align: left;
+    padding-left: 8px;
+  }
+
+  .group-standings-table tbody td {
+    padding: 6px 4px;
+    text-align: right;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(60, 59, 110, 0.06);
+  }
+
+  .group-standings-table tbody tr:last-child td { border-bottom: none; }
+
+  .group-standings-table tbody td.team-col {
+    text-align: left;
+    padding-left: 8px;
+    font-weight: 600;
+  }
+
+  .group-standings-table tbody td.pts-col {
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
     color: var(--blue);
-    font-size: 13px;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+
+  /* Position indicator (1st, 2nd qualify; 3rd may qualify; 4th out) */
+  .group-standings-table tbody tr.qualified td.team-col::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .group-standings-table tbody tr.possible td.team-col::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #d4a017;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .group-standings-table tbody tr.eliminated td.team-col {
+    color: #999;
   }
 
   .group-matches { padding: 8px 16px 16px; }
@@ -370,10 +425,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group A</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Mexico</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>South Africa</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>South Korea</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Czechia</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="A">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -412,10 +474,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group B</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Canada</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Switzerland</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Qatar</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Bosnia & Herz.</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="B">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -454,10 +523,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group C</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Brazil</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Morocco</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Haiti</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Scotland</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="C">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -496,10 +572,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group D</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>USA</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Paraguay</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Australia</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Türkiye</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="D">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -538,10 +621,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group E</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Germany</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Curaçao</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Côte d'Ivoire</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Ecuador</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="E">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -580,10 +670,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group F</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Netherlands</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Japan</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Tunisia</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Sweden</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="F">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -622,10 +719,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group G</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Belgium</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Egypt</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>IR Iran</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>New Zealand</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="G">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -664,10 +768,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group H</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Spain</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Cabo Verde</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Saudi Arabia</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Uruguay</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="H">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -706,10 +817,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group I</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>France</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Senegal</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Norway</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Iraq</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="I">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -748,10 +866,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group J</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Argentina</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Algeria</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Austria</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Jordan</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="J">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -790,10 +915,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group K</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>Portugal</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>DR Congo</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Uzbekistan</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Colombia</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="K">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -832,10 +964,17 @@
         <div class="group-card">
           <div class="group-card-header"><h3>Group L</h3></div>
           <div class="group-teams">
-            <div class="group-team-row"><span>England</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Croatia</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Ghana</span><span class="pts">— pts</span></div>
-            <div class="group-team-row"><span>Panama</span><span class="pts">— pts</span></div>
+            <table class="group-standings-table" data-group="L">
+              <thead>
+                <tr>
+                  <th class="team-col">Team</th>
+                  <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="8" style="text-align:center; padding:8px; color:#999; font-style:italic; font-size:12px;">Standings appear after first match</td></tr>
+              </tbody>
+            </table>
           </div>
           <div class="group-matches">
             <div class="match-row">
@@ -1140,14 +1279,13 @@
       const data = await res.json();
       if (!data.ok || !data.fixtures) return;
       updateScores(data.fixtures);
+      updateGroupStandings(data.fixtures);
     } catch (err) {
       console.error('Failed to load fixtures:', err);
     }
   }
 
   function updateScores(fixtures) {
-    // Build a lookup: "home|away" → { homeScore, awayScore }
-    // (we match by team names since the HTML doesn't have match numbers)
     const lookup = {};
     fixtures.forEach(f => {
       if (f.home && f.away && f.homeScore !== null && f.awayScore !== null) {
@@ -1156,7 +1294,6 @@
       }
     });
 
-    // Walk every match-row in the page and update scores where we have them
     document.querySelectorAll('.match-row').forEach(row => {
       const homeEl = row.querySelector('.match-team.home');
       const awayEl = row.querySelector('.match-team.away');
@@ -1176,7 +1313,6 @@
       }
     });
 
-    // Also handle knockout matches (ko-match) — those use team-name spans differently
     document.querySelectorAll('.ko-match').forEach(card => {
       const teams = card.querySelectorAll('.ko-team');
       if (teams.length !== 2) return;
@@ -1193,6 +1329,89 @@
         teams[1].classList.remove('tbd');
       }
     });
+  }
+
+  function updateGroupStandings(fixtures) {
+    // Build standings per group
+    const groupStandings = {};
+    const TEAMS_IN_GROUP = {
+      A: ['Mexico','South Africa','South Korea','Czechia'],
+      B: ['Canada','Switzerland','Qatar','Bosnia & Herzegovina'],
+      C: ['Brazil','Morocco','Haiti','Scotland'],
+      D: ['USA','Paraguay','Australia','Türkiye'],
+      E: ['Germany','Curaçao','Côte d\'Ivoire','Ecuador'],
+      F: ['Netherlands','Japan','Tunisia','Sweden'],
+      G: ['Belgium','Egypt','IR Iran','New Zealand'],
+      H: ['Spain','Cabo Verde','Saudi Arabia','Uruguay'],
+      I: ['France','Senegal','Norway','Iraq'],
+      J: ['Argentina','Algeria','Austria','Jordan'],
+      K: ['Portugal','DR Congo','Uzbekistan','Colombia'],
+      L: ['England','Croatia','Ghana','Panama'],
+    };
+
+    // Initialise records
+    for (const g of Object.keys(TEAMS_IN_GROUP)) {
+      groupStandings[g] = {};
+      for (const team of TEAMS_IN_GROUP[g]) {
+        groupStandings[g][team] = { team, P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, Pts: 0 };
+      }
+    }
+
+    // Walk group-stage fixtures only (stage = letter A-L)
+    fixtures.forEach(f => {
+      if (!/^[A-L]$/.test(String(f.stage))) return;
+      if (f.homeScore === null || f.awayScore === null) return;
+      const g = f.stage;
+      const home = groupStandings[g]?.[f.home];
+      const away = groupStandings[g]?.[f.away];
+      if (!home || !away) return;
+      home.P += 1; away.P += 1;
+      home.GF += f.homeScore; home.GA += f.awayScore;
+      away.GF += f.awayScore; away.GA += f.homeScore;
+      if (f.homeScore > f.awayScore) {
+        home.W += 1; home.Pts += 3;
+        away.L += 1;
+      } else if (f.awayScore > f.homeScore) {
+        away.W += 1; away.Pts += 3;
+        home.L += 1;
+      } else {
+        home.D += 1; away.D += 1;
+        home.Pts += 1; away.Pts += 1;
+      }
+    });
+
+    // Render each group
+    for (const g of Object.keys(TEAMS_IN_GROUP)) {
+      const table = document.querySelector(`.group-standings-table[data-group="${g}"]`);
+      if (!table) continue;
+      const tbody = table.querySelector('tbody');
+
+      // Sort: Pts → GD → GF
+      const sorted = Object.values(groupStandings[g]).sort((a, b) => {
+        if (b.Pts !== a.Pts) return b.Pts - a.Pts;
+        const gdA = a.GF - a.GA, gdB = b.GF - b.GA;
+        if (gdB !== gdA) return gdB - gdA;
+        return b.GF - a.GF;
+      });
+
+      // If no matches played yet, leave the placeholder
+      if (sorted.every(r => r.P === 0)) continue;
+
+      tbody.innerHTML = sorted.map((r, idx) => {
+        const cls = idx < 2 ? 'qualified' : idx === 2 ? 'possible' : 'eliminated';
+        return `<tr class="${cls}">
+          <td class="team-col">${escapeHtml(r.team)}</td>
+          <td>${r.P}</td><td>${r.W}</td><td>${r.D}</td><td>${r.L}</td>
+          <td>${r.GF}</td><td>${r.GA}</td>
+          <td class="pts-col">${r.Pts}</td>
+        </tr>`;
+      }).join('');
+    }
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   loadScores();
