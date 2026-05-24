@@ -354,7 +354,7 @@
     </div>
 
     <div class="payment-note">
-      <strong>Payment:</strong> After submitting, you'll receive bank transfer details by email. Your entry is confirmed only once payment is received.
+      <strong>Payment:</strong> Entry fee is <strong>£10 per person</strong>. After submitting, you'll receive bank transfer details by email. Your entry is confirmed only once payment is received. <em>Entries close 10 June 2026.</em>
     </div>
 
     <div class="submit-row">
@@ -414,6 +414,76 @@
     document.getElementById('progressText').textContent = `${count} / 9`;
     document.getElementById('progressFill').style.width = `${(count / 9) * 100}%`;
     document.getElementById('submitBtn').disabled = (count < 9);
+  }
+
+  // ===== SUBMIT TO BACKEND =====
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx59PvDrZEat3nd-LGz3Oq8wRsLDxdtkxiecmA4s1HIXexAfXqKK4iffjiV_LwNdW_TRQ/exec';
+
+  document.getElementById('submitBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('submitBtn');
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const goldenBoot = document.getElementById('goalscorer').value.trim();
+
+    // Validation
+    if (!name) { showMessage('Please enter your name.', 'error'); return; }
+    if (!email || !email.includes('@')) { showMessage('Please enter a valid email.', 'error'); return; }
+
+    // Collect 8 picks
+    const picks = [];
+    for (let p = 1; p <= 8; p++) {
+      const pot = document.querySelector(`.pot[data-pot="${p}"]`);
+      const selected = pot.querySelector('.team-option.selected');
+      if (!selected) { showMessage(`Missing pick for Pot ${p}.`, 'error'); return; }
+      picks.push(selected.textContent);
+    }
+    if (!goldenBoot) { showMessage('Please enter your Golden Boot pick.', 'error'); return; }
+
+    // Disable button, show working state
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ name, email, picks, goldenBoot }),
+      });
+      const data = await response.json();
+
+      if (data.ok) {
+        showMessage(data.message || 'Entry received! Check your email for payment details.', 'success');
+        btn.textContent = 'Entry Submitted ✓';
+        // Don't re-enable - one entry per session
+      } else {
+        showMessage(data.error || 'Something went wrong. Please try again.', 'error');
+        btn.textContent = 'Submit Entry';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      showMessage('Could not connect to server. Please check your internet and try again.', 'error');
+      btn.textContent = 'Submit Entry';
+      btn.disabled = false;
+    }
+  });
+
+  function showMessage(text, type) {
+    let msg = document.getElementById('submit-message');
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.id = 'submit-message';
+      msg.style.cssText = 'margin-top:16px;padding:14px 18px;border-radius:4px;font-size:15px;font-weight:500;text-align:center;';
+      document.querySelector('.submit-row').appendChild(msg);
+    }
+    if (type === 'success') {
+      msg.style.background = 'rgba(0, 104, 71, 0.1)';
+      msg.style.color = 'var(--green)';
+      msg.style.border = '1px solid var(--green)';
+    } else {
+      msg.style.background = 'rgba(206, 17, 38, 0.08)';
+      msg.style.color = 'var(--red)';
+      msg.style.border = '1px solid var(--red)';
+    }
+    msg.textContent = text;
   }
 </script>
 

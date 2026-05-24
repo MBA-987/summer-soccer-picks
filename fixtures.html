@@ -1130,6 +1130,72 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ===== FETCH LIVE SCORES =====
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx59PvDrZEat3nd-LGz3Oq8wRsLDxdtkxiecmA4s1HIXexAfXqKK4iffjiV_LwNdW_TRQ/exec';
+
+  async function loadScores() {
+    try {
+      const res = await fetch(API_URL + '?action=fixtures');
+      const data = await res.json();
+      if (!data.ok || !data.fixtures) return;
+      updateScores(data.fixtures);
+    } catch (err) {
+      console.error('Failed to load fixtures:', err);
+    }
+  }
+
+  function updateScores(fixtures) {
+    // Build a lookup: "home|away" → { homeScore, awayScore }
+    // (we match by team names since the HTML doesn't have match numbers)
+    const lookup = {};
+    fixtures.forEach(f => {
+      if (f.home && f.away && f.homeScore !== null && f.awayScore !== null) {
+        const key = f.home + '|' + f.away;
+        lookup[key] = { hs: f.homeScore, as: f.awayScore };
+      }
+    });
+
+    // Walk every match-row in the page and update scores where we have them
+    document.querySelectorAll('.match-row').forEach(row => {
+      const homeEl = row.querySelector('.match-team.home');
+      const awayEl = row.querySelector('.match-team.away');
+      const scoreEl = row.querySelector('.match-score');
+      const statusEl = row.querySelector('.match-status');
+      if (!homeEl || !awayEl || !scoreEl) return;
+
+      const key = homeEl.textContent.trim() + '|' + awayEl.textContent.trim();
+      const result = lookup[key];
+      if (result) {
+        scoreEl.textContent = `${result.hs} - ${result.as}`;
+        scoreEl.classList.remove('tbd');
+        if (statusEl) {
+          statusEl.textContent = 'Finished';
+          statusEl.classList.add('finished');
+        }
+      }
+    });
+
+    // Also handle knockout matches (ko-match) — those use team-name spans differently
+    document.querySelectorAll('.ko-match').forEach(card => {
+      const teams = card.querySelectorAll('.ko-team');
+      if (teams.length !== 2) return;
+      const homeName = teams[0].querySelector('span:first-child')?.textContent.trim();
+      const awayName = teams[1].querySelector('span:first-child')?.textContent.trim();
+      const homeScore = teams[0].querySelector('.ko-score');
+      const awayScore = teams[1].querySelector('.ko-score');
+      if (!homeName || !awayName) return;
+      const result = lookup[homeName + '|' + awayName];
+      if (result) {
+        homeScore.textContent = result.hs;
+        awayScore.textContent = result.as;
+        teams[0].classList.remove('tbd');
+        teams[1].classList.remove('tbd');
+      }
+    });
+  }
+
+  loadScores();
 </script>
 
 </body>

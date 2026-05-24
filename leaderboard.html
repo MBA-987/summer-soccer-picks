@@ -170,7 +170,7 @@
       </div>
       <div class="stat-card red">
         <div class="stat-label">Prize Pot</div>
-        <div class="stat-value">£TBC</div>
+        <div class="stat-value">£120</div>
       </div>
       <div class="stat-card green">
         <div class="stat-label">Highest Score</div>
@@ -280,6 +280,68 @@
     <p>&copy; 2026 Summer Soccer Picks · A family &amp; friends sweepstake</p>
   </div>
 </footer>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx59PvDrZEat3nd-LGz3Oq8wRsLDxdtkxiecmA4s1HIXexAfXqKK4iffjiV_LwNdW_TRQ/exec';
+
+  async function loadLeaderboard() {
+    try {
+      const res = await fetch(API_URL + '?action=leaderboard');
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Unknown error');
+      renderLeaderboard(data.leaderboard);
+    } catch (err) {
+      console.error('Failed to load leaderboard:', err);
+      // Keep the sample data showing on failure — better than a broken page
+    }
+  }
+
+  function renderLeaderboard(entries) {
+    const tbody = document.querySelector('.leaderboard-wrap table tbody');
+    if (!entries || entries.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">No entries yet — be the first!</td></tr>';
+      // Update stats too
+      document.querySelectorAll('.stat-value')[0].textContent = '0';
+      document.querySelectorAll('.stat-value')[1].textContent = '£0';
+      document.querySelectorAll('.stat-value')[2].textContent = '—';
+      return;
+    }
+
+    // Build table rows
+    const rows = entries.map((e, i) => {
+      const rank = i + 1;
+      const rankClass = rank <= 3 ? `rank-${rank}` : '';
+      return `
+        <tr class="${rankClass}">
+          <td class="rank-cell">${rank}</td>
+          <td>${escapeHtml(e.entrant)}</td>
+          <td class="teams-cell">${escapeHtml(e.teams)}<br><span class="goalscorer-tag">⚽ ${escapeHtml(e.goldenBoot)}</span></td>
+          <td class="points-cell">${e.points || 0}</td>
+        </tr>
+      `;
+    }).join('');
+    tbody.innerHTML = rows;
+
+    // Update stat cards
+    const stats = document.querySelectorAll('.stat-value');
+    stats[0].textContent = entries.length;                       // Total Entries
+    stats[1].textContent = '£' + (entries.length * 10);          // Prize Pot
+    stats[2].textContent = entries[0]?.points || '—';            // Highest Score
+
+    // Update last-updated text
+    const lastUpdated = document.querySelector('.last-updated');
+    if (lastUpdated) {
+      lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  loadLeaderboard();
+</script>
 
 </body>
 </html>
