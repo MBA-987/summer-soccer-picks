@@ -26,6 +26,19 @@
   }
   .hero h1 .picks { color: var(--red); display: block; }
   .hero-tagline { font-size: 20px; max-width: 600px; margin: 24px auto 40px; opacity: 0.95; }
+  .hero-price {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--white);
+    background: var(--red);
+    padding: 6px 18px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    opacity: 1;
+  }
   .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
   .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
@@ -121,7 +134,7 @@
 
 <section class="hero">
   <h1>Summer Soccer<span class="picks">Picks</span></h1>
-  <p class="hero-tagline">The 2026 World Cup prediction game for friends and family. £10 to enter. Pick your teams. Climb the table. Take the prize.</p>
+  <p class="hero-tagline">The 2026 World Cup prediction game for friends and family. Pick your teams, climb the table, and take the prize.<br><span class="hero-price">£10 to enter</span></p>
   <div class="cta-row">
     <a href="enter.html" class="btn btn-primary">Enter Now</a>
     <a href="leaderboard.html" class="btn btn-secondary">View Leaderboard</a>
