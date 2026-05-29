@@ -1330,20 +1330,45 @@
       }
     });
 
+    // Knockout matches: use match number as identifier (team names are placeholders until manually entered)
+    // Build a lookup by match number for knockouts
+    const koLookup = {};
+    fixtures.forEach(f => {
+      if (f.match && Number(f.match) >= 73) {
+        koLookup[Number(f.match)] = f;
+      }
+    });
+
     document.querySelectorAll('.ko-match').forEach(card => {
+      const numEl = card.querySelector('.ko-match-num');
+      if (!numEl) return;
+      // Extract match number from text like "Match 73"
+      const numMatch = numEl.textContent.match(/(\d+)/);
+      if (!numMatch) return;
+      const matchNum = Number(numMatch[1]);
+      const f = koLookup[matchNum];
+      if (!f) return;
+
       const teams = card.querySelectorAll('.ko-team');
       if (teams.length !== 2) return;
-      const homeName = teams[0].querySelector('span:first-child')?.textContent.trim();
-      const awayName = teams[1].querySelector('span:first-child')?.textContent.trim();
+      const homeName = teams[0].querySelector('span:first-child');
+      const awayName = teams[1].querySelector('span:first-child');
       const homeScore = teams[0].querySelector('.ko-score');
       const awayScore = teams[1].querySelector('.ko-score');
-      if (!homeName || !awayName) return;
-      const result = lookup[homeName + '|' + awayName];
-      if (result) {
-        homeScore.textContent = result.hs;
-        awayScore.textContent = result.as;
+
+      // Update team names if sheet has them filled in
+      if (f.home) {
+        homeName.textContent = f.home;
         teams[0].classList.remove('tbd');
+      }
+      if (f.away) {
+        awayName.textContent = f.away;
         teams[1].classList.remove('tbd');
+      }
+      // Update scores if both are present
+      if (f.homeScore !== null && f.awayScore !== null) {
+        homeScore.textContent = f.homeScore;
+        awayScore.textContent = f.awayScore;
       }
     });
   }
