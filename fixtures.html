@@ -322,6 +322,40 @@
 
   .ko-team.tbd { color: #777; font-style: italic; }
   .ko-team.tbd .ko-score { color: #ccc; }
+  .ko-team.winner {
+    background: rgba(0, 104, 71, 0.12);
+    border-radius: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin: 0 -6px;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .ko-team.winner .ko-score { color: var(--green); }
+  .ko-result-label {
+    display: inline-block;
+    margin-top: 6px;
+    margin-right: 8px;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #777;
+    background: rgba(60, 59, 110, 0.08);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .ko-team.projected {
+    color: #555;
+    font-style: italic;
+  }
+  .ko-team.projected::before {
+    content: '→ ';
+    color: var(--green);
+    font-weight: 700;
+    margin-right: 2px;
+  }
 
   .ko-venue {
     margin-top: 8px;
@@ -1339,15 +1373,48 @@
       }
     });
 
+    // Determine winners for each completed knockout match
+    // Winner logic: if scores differ, higher score wins. If level, use 'winner' column (penalty shootout).
+    const winnerOf = {};   // matchNum → winning team name
+    for (const num in koLookup) {
+      const f = koLookup[num];
+      if (f.homeScore === null || f.awayScore === null) continue;
+      if (!f.home || !f.away) continue;
+      if (f.homeScore > f.awayScore) winnerOf[num] = f.home;
+      else if (f.awayScore > f.homeScore) winnerOf[num] = f.away;
+      else if (f.winner) winnerOf[num] = String(f.winner).trim();
+    }
+
+    // FIFA bracket advancement structure — which match feeds into which
+    const advancement = {
+      // R16
+      89: { home: 73, away: 75 },
+      90: { home: 74, away: 77 },
+      91: { home: 76, away: 78 },
+      92: { home: 79, away: 80 },
+      93: { home: 83, away: 84 },
+      94: { home: 81, away: 82 },
+      95: { home: 86, away: 88 },
+      96: { home: 85, away: 87 },
+      // QF
+      97:  { home: 89, away: 90 },
+      98:  { home: 93, away: 94 },
+      99:  { home: 91, away: 92 },
+      100: { home: 95, away: 96 },
+      // SF
+      101: { home: 97, away: 98 },
+      102: { home: 99, away: 100 },
+      // Final
+      104: { home: 101, away: 102 },
+    };
+
     document.querySelectorAll('.ko-match').forEach(card => {
       const numEl = card.querySelector('.ko-match-num');
       if (!numEl) return;
-      // Extract match number from text like "Match 73"
       const numMatch = numEl.textContent.match(/(\d+)/);
       if (!numMatch) return;
       const matchNum = Number(numMatch[1]);
       const f = koLookup[matchNum];
-      if (!f) return;
 
       const teams = card.querySelectorAll('.ko-team');
       if (teams.length !== 2) return;
@@ -1356,19 +1423,62 @@
       const homeScore = teams[0].querySelector('.ko-score');
       const awayScore = teams[1].querySelector('.ko-score');
 
-      // Update team names if sheet has them filled in
-      if (f.home) {
-        homeName.textContent = f.home;
+      // Determine which teams to show. Use sheet data if filled, otherwise propagate from previous round.
+      let homeTeam = f && f.home ? f.home : null;
+      let awayTeam = f && f.away ? f.away : null;
+      let homeProjected = false;
+      let awayProjected = false;
+
+      if (!homeTeam && advancement[matchNum]) {
+        const feederMatch = advancement[matchNum].home;
+        if (winnerOf[feederMatch]) {
+          homeTeam = winnerOf[feederMatch];
+          homeProjected = true;
+        }
+      }
+      if (!awayTeam && advancement[matchNum]) {
+        const feederMatch = advancement[matchNum].away;
+        if (winnerOf[feederMatch]) {
+          awayTeam = winnerOf[feederMatch];
+          awayProjected = true;
+        }
+      }
+
+      // Update team names
+      if (homeTeam) {
+        homeName.textContent = homeTeam;
         teams[0].classList.remove('tbd');
+        if (homeProjected) teams[0].classList.add('projected');
       }
-      if (f.away) {
-        awayName.textContent = f.away;
+      if (awayTeam) {
+        awayName.textContent = awayTeam;
         teams[1].classList.remove('tbd');
+        if (awayProjected) teams[1].classList.add('projected');
       }
-      // Update scores if both are present
-      if (f.homeScore !== null && f.awayScore !== null) {
+
+      // Update scores and winner highlight (only for matches with both score entries in sheet)
+      if (f && f.homeScore !== null && f.awayScore !== null) {
         homeScore.textContent = f.homeScore;
         awayScore.textContent = f.awayScore;
+
+        // Highlight winner
+        const winnerName = winnerOf[matchNum];
+        if (winnerName) {
+          if (winnerName === f.home) teams[0].classList.add('winner');
+          else if (winnerName === f.away) teams[1].classList.add('winner');
+        }
+
+        // Add Result label (FT/AET/Pens) — append after venue if not already there
+        if (f.result) {
+          const venueEl = card.querySelector('.ko-venue');
+          if (venueEl && !card.querySelector('.ko-result-label')) {
+            const label = document.createElement('span');
+            label.className = 'ko-result-label';
+            label.textContent = f.result;
+            // Insert label before venue
+            venueEl.parentNode.insertBefore(label, venueEl);
+          }
+        }
       }
     });
   }
