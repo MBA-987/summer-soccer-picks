@@ -413,6 +413,41 @@
     position: relative;
   }
 
+  .final-card .final-home,
+  .final-card .final-away {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 4px;
+  }
+
+  .final-card .final-home.champion,
+  .final-card .final-away.champion {
+    background: rgba(0, 104, 71, 0.4);
+    color: #FFD700;
+  }
+
+  .final-card .final-score {
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--white);
+    padding: 0 8px;
+  }
+
+  .final-card .final-result {
+    margin-top: 16px;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+  }
+
+  .final-card .final-result.has-result::before {
+    content: '🏆 ';
+  }
+
   .info-note {
     background: rgba(60, 59, 110, 0.05);
     border-left: 4px solid var(--blue);
@@ -1293,10 +1328,11 @@
         </div>
       </div>
 
-      <div class="final-card">
+      <div class="final-card" id="final-match-card">
         <h3>The Final</h3>
         <p class="final-info">Sunday 19 July 2026 · 20:00 UK · MetLife Stadium, New York/New Jersey · Match 104</p>
-        <div class="final-teams">Winner M101 &nbsp; vs &nbsp; Winner M102</div>
+        <div class="final-teams" id="final-teams"><span class="final-home">Winner M101</span> &nbsp; <span class="final-score">vs</span> &nbsp; <span class="final-away">Winner M102</span></div>
+        <div class="final-result" id="final-result"></div>
       </div>
     </div>
 
@@ -1481,6 +1517,42 @@
         }
       }
     });
+
+    // ===== UPDATE THE FINAL CARD (match 104) =====
+    const finalCard = document.getElementById('final-match-card');
+    if (finalCard) {
+      const f104 = koLookup[104];
+      const homeEl = finalCard.querySelector('.final-home');
+      const awayEl = finalCard.querySelector('.final-away');
+      const scoreEl = finalCard.querySelector('.final-score');
+      const resultEl = document.getElementById('final-result');
+
+      // Determine teams (use sheet data, fall back to SF winners)
+      let homeTeam = f104 && f104.home ? f104.home : (winnerOf[101] || null);
+      let awayTeam = f104 && f104.away ? f104.away : (winnerOf[102] || null);
+
+      if (homeTeam && homeEl) homeEl.textContent = homeTeam;
+      if (awayTeam && awayEl) awayEl.textContent = awayTeam;
+
+      // If both scores present, show score and champion
+      if (f104 && f104.homeScore !== null && f104.awayScore !== null) {
+        scoreEl.textContent = `${f104.homeScore} - ${f104.awayScore}`;
+
+        // Determine champion
+        let champion = null;
+        if (f104.homeScore > f104.awayScore) champion = f104.home;
+        else if (f104.awayScore > f104.homeScore) champion = f104.away;
+        else if (f104.winner) champion = String(f104.winner).trim();
+
+        if (champion === homeTeam && homeEl) homeEl.classList.add('champion');
+        else if (champion === awayTeam && awayEl) awayEl.classList.add('champion');
+
+        if (resultEl && champion) {
+          resultEl.textContent = `${champion} are World Champions${f104.result ? ' (' + f104.result + ')' : ''}`;
+          resultEl.classList.add('has-result');
+        }
+      }
+    }
   }
 
   function updateGroupStandings(fixtures) {
