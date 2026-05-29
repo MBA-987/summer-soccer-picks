@@ -226,7 +226,7 @@
           <tr>
             <td class="rank-cell">6</td>
             <td>Emma Wilson</td>
-            <td class="teams-cell">France, Argentina, USA, Colombia, Côte d'Ivoire, New Zealand, Haiti, Congo DR<br><span class="goalscorer-tag">⚽ Vinicius Jr</span></td>
+            <td class="teams-cell">France, Argentina, USA, Colombia, Côte d'Ivoire, New Zealand, Haiti, DR Congo<br><span class="goalscorer-tag">⚽ Vinicius Jr</span></td>
             <td class="points-cell">—</td>
           </tr>
           <tr>
@@ -296,15 +296,11 @@
     stats[3].textContent = '—';
 
     try {
-      // Fetch both leaderboard and fixtures in parallel
-      const [lbRes, fxRes] = await Promise.all([
-        fetch(API_URL + '?action=leaderboard'),
-        fetch(API_URL + '?action=fixtures'),
-      ]);
-      const lbData = await lbRes.json();
-      const fxData = await fxRes.json();
-      if (!lbData.ok) throw new Error(lbData.error || 'Leaderboard error');
-      renderLeaderboard(lbData.leaderboard, fxData.fixtures || []);
+      // One combined API call instead of two — halves the cold-start wait
+      const res = await fetch(API_URL + '?action=all');
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Leaderboard error');
+      renderLeaderboard(data.leaderboard, data.fixtures || []);
     } catch (err) {
       console.error('Failed to load leaderboard:', err);
       tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Could not load leaderboard. Please refresh.</td></tr>';
