@@ -240,6 +240,40 @@
 
   .payment-note strong { color: var(--green); }
 
+  .bank-details {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    background: var(--white);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .bank-details li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .bank-details li + li { border-top: 1px solid var(--border); }
+  .bank-label {
+    font-weight: 500;
+    color: #555;
+  }
+  .bank-value {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  .bank-ref {
+    color: var(--red);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
   @media (max-width: 600px) {
     .entry-form { padding: 24px 20px; }
     .team-grid { grid-template-columns: repeat(2, 1fr); }
@@ -371,7 +405,14 @@
     </div>
 
     <div class="payment-note">
-      <strong>Payment:</strong> Entry fee is <strong>£10 per person</strong>. After submitting, you'll receive bank transfer details by email. Your entry is confirmed only once payment is received. <em>Entries close 10 June 2026.</em>
+      <p style="margin: 0 0 12px;"><strong>Payment:</strong> Entry fee is <strong>£10 per person</strong>. Please transfer money to the following bank account:</p>
+      <ul class="bank-details">
+        <li><span class="bank-label">Sort Code:</span> <span class="bank-value">04-00-06</span></li>
+        <li><span class="bank-label">Account Number:</span> <span class="bank-value">26116421</span></li>
+        <li><span class="bank-label">Account Name:</span> <span class="bank-value">Dale Perry</span></li>
+        <li><span class="bank-label">Reference:</span> <span class="bank-value bank-ref">PLEASE PUT YOUR NAME</span></li>
+      </ul>
+      <p style="margin: 12px 0 0; font-size: 13px; color: #777;"><em>Entries close 10 June 2026. Your entry only appears on the leaderboard once payment is received.</em></p>
     </div>
 
     <div class="submit-row">
@@ -468,7 +509,7 @@
       const data = await response.json();
 
       if (data.ok) {
-        showMessage(data.message || 'Entry received! Check your email for payment details.', 'success');
+        showMessage(data.message || 'Entry received! Please transfer your £10 entry fee using the bank details above.', 'success');
         btn.textContent = 'Entry Submitted ✓';
         // Don't re-enable - one entry per session
       } else {
