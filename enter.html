@@ -380,8 +380,154 @@
           <span class="pot-name">Golden Boot Winner</span>
           <span class="pot-hint">Predict the tournament's leading scorer</span>
         </div>
-        <label for="goalscorer" style="font-size:13px; text-transform:none; letter-spacing:0; font-weight:500; color:#666; margin-bottom:4px;">Enter a player's name:</label>
-        <input type="text" id="goalscorer" placeholder="e.g. Kylian Mbappé">
+        <label for="goalscorer" style="font-size:13px; text-transform:none; letter-spacing:0; font-weight:500; color:#666; margin-bottom:4px;">Select a player:</label>
+        <select id="goalscorer">
+          <option value="" disabled selected>-- Select a player --</option>
+          <optgroup label="Argentina">
+            <option value="Lionel Messi (Argentina)">Lionel Messi (Argentina)</option>
+            <option value="Lautaro Martinez (Argentina)">Lautaro Martinez (Argentina)</option>
+            <option value="Julian Alvarez (Argentina)">Julian Alvarez (Argentina)</option>
+            <option value="Alexis Mac Allister (Argentina)">Alexis Mac Allister (Argentina)</option>
+            <option value="Nicolas Gonzalez (Argentina)">Nicolas Gonzalez (Argentina)</option>
+            <option value="Thiago Almada (Argentina)">Thiago Almada (Argentina)</option>
+            <option value="Enzo Fernandez (Argentina)">Enzo Fernandez (Argentina)</option>
+          </optgroup>
+          <optgroup label="Belgium">
+            <option value="Romelu Lukaku (Belgium)">Romelu Lukaku (Belgium)</option>
+            <option value="Kevin De Bruyne (Belgium)">Kevin De Bruyne (Belgium)</option>
+            <option value="Jeremy Doku (Belgium)">Jeremy Doku (Belgium)</option>
+            <option value="Leandro Trossard (Belgium)">Leandro Trossard (Belgium)</option>
+            <option value="Dodi Lukebakio (Belgium)">Dodi Lukebakio (Belgium)</option>
+          </optgroup>
+          <optgroup label="Brazil">
+            <option value="Vinicius Jr (Brazil)">Vinicius Jr (Brazil)</option>
+            <option value="Raphinha (Brazil)">Raphinha (Brazil)</option>
+            <option value="Neymar (Brazil)">Neymar (Brazil)</option>
+            <option value="Gabriel Martinelli (Brazil)">Gabriel Martinelli (Brazil)</option>
+            <option value="Matheus Cunha (Brazil)">Matheus Cunha (Brazil)</option>
+            <option value="Endrick (Brazil)">Endrick (Brazil)</option>
+            <option value="Luiz Henrique (Brazil)">Luiz Henrique (Brazil)</option>
+          </optgroup>
+          <optgroup label="Colombia">
+            <option value="Luis Diaz (Colombia)">Luis Diaz (Colombia)</option>
+            <option value="Luis Suarez (Colombia)">Luis Suarez (Colombia)</option>
+            <option value="Cucho Hernandez (Colombia)">Cucho Hernandez (Colombia)</option>
+            <option value="James Rodriguez (Colombia)">James Rodriguez (Colombia)</option>
+          </optgroup>
+          <optgroup label="Croatia">
+            <option value="Andrej Kramaric (Croatia)">Andrej Kramaric (Croatia)</option>
+            <option value="Luka Modric (Croatia)">Luka Modric (Croatia)</option>
+            <option value="Petar Musa (Croatia)">Petar Musa (Croatia)</option>
+            <option value="Ante Budimir (Croatia)">Ante Budimir (Croatia)</option>
+          </optgroup>
+          <optgroup label="Egypt">
+            <option value="Mohamed Salah (Egypt)">Mohamed Salah (Egypt)</option>
+            <option value="Omar Marmoush (Egypt)">Omar Marmoush (Egypt)</option>
+            <option value="Trezeguet (Egypt)">Trezeguet (Egypt)</option>
+          </optgroup>
+          <optgroup label="England">
+            <option value="Harry Kane (England)">Harry Kane (England)</option>
+            <option value="Bukayo Saka (England)">Bukayo Saka (England)</option>
+            <option value="Jude Bellingham (England)">Jude Bellingham (England)</option>
+            <option value="Ollie Watkins (England)">Ollie Watkins (England)</option>
+            <option value="Marcus Rashford (England)">Marcus Rashford (England)</option>
+            <option value="Eberechi Eze (England)">Eberechi Eze (England)</option>
+            <option value="Anthony Gordon (England)">Anthony Gordon (England)</option>
+          </optgroup>
+          <optgroup label="France">
+            <option value="Kylian Mbappe (France)">Kylian Mbappe (France)</option>
+            <option value="Ousmane Dembele (France)">Ousmane Dembele (France)</option>
+            <option value="Michael Olise (France)">Michael Olise (France)</option>
+            <option value="Marcus Thuram (France)">Marcus Thuram (France)</option>
+            <option value="Bradley Barcola (France)">Bradley Barcola (France)</option>
+            <option value="Rayan Cherki (France)">Rayan Cherki (France)</option>
+            <option value="Desire Doue (France)">Desire Doue (France)</option>
+          </optgroup>
+          <optgroup label="Germany">
+            <option value="Kai Havertz (Germany)">Kai Havertz (Germany)</option>
+            <option value="Jamal Musiala (Germany)">Jamal Musiala (Germany)</option>
+            <option value="Florian Wirtz (Germany)">Florian Wirtz (Germany)</option>
+            <option value="Leroy Sane (Germany)">Leroy Sane (Germany)</option>
+            <option value="Nick Woltemade (Germany)">Nick Woltemade (Germany)</option>
+            <option value="Maximilian Beier (Germany)">Maximilian Beier (Germany)</option>
+          </optgroup>
+          <optgroup label="Ivory Coast">
+            <option value="Simon Adingra (Ivory Coast)">Simon Adingra (Ivory Coast)</option>
+            <option value="Amad Diallo (Ivory Coast)">Amad Diallo (Ivory Coast)</option>
+            <option value="Evann Guessand (Ivory Coast)">Evann Guessand (Ivory Coast)</option>
+          </optgroup>
+          <optgroup label="Japan">
+            <option value="Takefusa Kubo (Japan)">Takefusa Kubo (Japan)</option>
+            <option value="Ritsu Doan (Japan)">Ritsu Doan (Japan)</option>
+            <option value="Ayase Ueda (Japan)">Ayase Ueda (Japan)</option>
+          </optgroup>
+          <optgroup label="Mexico">
+            <option value="Santiago Gimenez (Mexico)">Santiago Gimenez (Mexico)</option>
+            <option value="Raul Jimenez (Mexico)">Raul Jimenez (Mexico)</option>
+            <option value="Alexis Vega (Mexico)">Alexis Vega (Mexico)</option>
+          </optgroup>
+          <optgroup label="Morocco">
+            <option value="Brahim Diaz (Morocco)">Brahim Diaz (Morocco)</option>
+            <option value="Ayoub El Kaabi (Morocco)">Ayoub El Kaabi (Morocco)</option>
+            <option value="Abde Ezzalzouli (Morocco)">Abde Ezzalzouli (Morocco)</option>
+            <option value="Soufiane Rahimi (Morocco)">Soufiane Rahimi (Morocco)</option>
+          </optgroup>
+          <optgroup label="Netherlands">
+            <option value="Cody Gakpo (Netherlands)">Cody Gakpo (Netherlands)</option>
+            <option value="Memphis Depay (Netherlands)">Memphis Depay (Netherlands)</option>
+            <option value="Donyell Malen (Netherlands)">Donyell Malen (Netherlands)</option>
+            <option value="Justin Kluivert (Netherlands)">Justin Kluivert (Netherlands)</option>
+            <option value="Tijjani Reijnders (Netherlands)">Tijjani Reijnders (Netherlands)</option>
+          </optgroup>
+          <optgroup label="Norway">
+            <option value="Erling Haaland (Norway)">Erling Haaland (Norway)</option>
+            <option value="Alexander Sorloth (Norway)">Alexander Sorloth (Norway)</option>
+            <option value="Martin Odegaard (Norway)">Martin Odegaard (Norway)</option>
+          </optgroup>
+          <optgroup label="Portugal">
+            <option value="Cristiano Ronaldo (Portugal)">Cristiano Ronaldo (Portugal)</option>
+            <option value="Bruno Fernandes (Portugal)">Bruno Fernandes (Portugal)</option>
+            <option value="Rafael Leao (Portugal)">Rafael Leao (Portugal)</option>
+            <option value="Joao Felix (Portugal)">Joao Felix (Portugal)</option>
+            <option value="Bernardo Silva (Portugal)">Bernardo Silva (Portugal)</option>
+            <option value="Pedro Neto (Portugal)">Pedro Neto (Portugal)</option>
+          </optgroup>
+          <optgroup label="Senegal">
+            <option value="Sadio Mane (Senegal)">Sadio Mane (Senegal)</option>
+            <option value="Ismaila Sarr (Senegal)">Ismaila Sarr (Senegal)</option>
+            <option value="Nicolas Jackson (Senegal)">Nicolas Jackson (Senegal)</option>
+          </optgroup>
+          <optgroup label="South Korea">
+            <option value="Son Heung-min (South Korea)">Son Heung-min (South Korea)</option>
+            <option value="Lee Kang-in (South Korea)">Lee Kang-in (South Korea)</option>
+            <option value="Hwang Hee-chan (South Korea)">Hwang Hee-chan (South Korea)</option>
+          </optgroup>
+          <optgroup label="Spain">
+            <option value="Lamine Yamal (Spain)">Lamine Yamal (Spain)</option>
+            <option value="Pedri (Spain)">Pedri (Spain)</option>
+            <option value="Mikel Oyarzabal (Spain)">Mikel Oyarzabal (Spain)</option>
+            <option value="Ferran Torres (Spain)">Ferran Torres (Spain)</option>
+            <option value="Nico Williams (Spain)">Nico Williams (Spain)</option>
+            <option value="Dani Olmo (Spain)">Dani Olmo (Spain)</option>
+            <option value="Yeremy Pino (Spain)">Yeremy Pino (Spain)</option>
+          </optgroup>
+          <optgroup label="Sweden">
+            <option value="Alexander Isak (Sweden)">Alexander Isak (Sweden)</option>
+            <option value="Viktor Gyokeres (Sweden)">Viktor Gyokeres (Sweden)</option>
+            <option value="Anthony Elanga (Sweden)">Anthony Elanga (Sweden)</option>
+          </optgroup>
+          <optgroup label="Switzerland">
+            <option value="Breel Embolo (Switzerland)">Breel Embolo (Switzerland)</option>
+            <option value="Dan Ndoye (Switzerland)">Dan Ndoye (Switzerland)</option>
+            <option value="Ruben Vargas (Switzerland)">Ruben Vargas (Switzerland)</option>
+          </optgroup>
+          <optgroup label="USA">
+            <option value="Christian Pulisic (USA)">Christian Pulisic (USA)</option>
+            <option value="Folarin Balogun (USA)">Folarin Balogun (USA)</option>
+            <option value="Ricardo Pepi (USA)">Ricardo Pepi (USA)</option>
+            <option value="Tim Weah (USA)">Tim Weah (USA)</option>
+          </optgroup>
+        </select>
       </div>
     </div>
 
@@ -442,7 +588,7 @@
     });
   });
 
-  document.getElementById('goalscorer').addEventListener('input', updateYourPicks);
+  document.getElementById('goalscorer').addEventListener('change', updateYourPicks);
 
   function updateYourPicks() {
     let count = 0;
