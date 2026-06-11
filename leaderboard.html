@@ -165,7 +165,6 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="enter.html">Enter</a></li>
     <li><a href="fixtures.html">Fixtures</a></li>
     <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
     <li><a href="rules.html">Rules</a></li>
@@ -320,7 +319,7 @@
       renderLeaderboard(data.leaderboard, data.fixtures || []);
     } catch (err) {
       console.error('Failed to load leaderboard:', err);
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Leaderboard is temporarily unavailable — check back in a while.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#888; font-style:italic;">Could not load leaderboard. Please refresh.</td></tr>';
     }
   }
 

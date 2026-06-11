@@ -201,7 +201,6 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="enter.html">Enter</a></li>
     <li><a href="fixtures.html">Fixtures</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
     <li><a href="rules.html">Rules</a></li>
@@ -212,7 +211,7 @@
   <h1>Summer Soccer<span class="picks">Picks</span></h1>
   <p class="hero-tagline">The 2026 World Cup prediction game for friends and family.<br>Pick your teams, climb the table, and take the prize.<br><span class="hero-price">£10 to enter</span></p>
   <div class="cta-row">
-    <a href="enter.html" class="btn btn-primary">Enter Now</a>
+    <span class="btn btn-primary" style="background:#999; cursor:not-allowed; box-shadow:none;">Entries Closed</span>
     <a href="leaderboard.html" class="btn btn-secondary">View Leaderboard</a>
   </div>
 </section>
@@ -285,18 +284,18 @@
     <div class="prize-grid">
       <div class="prize-card first">
         <div class="prize-rank">1st Place</div>
-        <div class="prize-amount">60%</div>
-        <p class="prize-desc">of the pot</p>
+        <div class="prize-amount">£168</div>
+        <p class="prize-desc">60% of the pot</p>
       </div>
       <div class="prize-card second">
         <div class="prize-rank">2nd Place</div>
-        <div class="prize-amount">30%</div>
-        <p class="prize-desc">of the pot</p>
+        <div class="prize-amount">£84</div>
+        <p class="prize-desc">30% of the pot</p>
       </div>
       <div class="prize-card third">
         <div class="prize-rank">3rd Place</div>
-        <div class="prize-amount">10%</div>
-        <p class="prize-desc">of the pot</p>
+        <div class="prize-amount">£28</div>
+        <p class="prize-desc">10% of the pot</p>
       </div>
     </div>
   </div>
@@ -350,7 +349,7 @@
       renderTop5(data.leaderboard.slice(0, 5));
     } catch (err) {
       console.error('Failed to load top 5:', err);
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:24px; color:#888; font-style:italic;">Leaderboard is temporarily unavailable — check back in a while.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:24px; color:#888; font-style:italic;">Could not load entries.</td></tr>';
     }
   }
 
