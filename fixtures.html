@@ -478,6 +478,7 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
+    <li><a href="enter.html">Enter</a></li>
     <li><a href="fixtures.html" class="active">Fixtures</a></li>
     <li><a href="leaderboard.html">Leaderboard</a></li>
     <li><a href="rules.html">Rules</a></li>
@@ -1365,7 +1366,7 @@
       const data = await res.json();
       if (!data.ok || !data.fixtures) return;
       updateScores(data.fixtures);
-      updateGroupStandings(data.fixtures);
+      updateGroupStandings(data.fixtures, data.groupOverrides || {});
     } catch (err) {
       console.error('Failed to load fixtures:', err);
     }
@@ -1554,7 +1555,7 @@
     }
   }
 
-  function updateGroupStandings(fixtures) {
+  function updateGroupStandings(fixtures, overrides) {
     // Build standings per group
     const groupStandings = {};
     const TEAMS_IN_GROUP = {
@@ -1620,7 +1621,24 @@
       // If no matches played yet, leave the placeholder
       if (sorted.every(r => r.P === 0)) continue;
 
-      tbody.innerHTML = sorted.map((r, idx) => {
+      // Apply a manual group override (so this table matches the leaderboard's
+      // scoring) — but only once every team in the group has played all 3 games,
+      // which is also when the backend awards the override-based points.
+      let displayOrder = sorted;
+      const ov = overrides && overrides[g];
+      if (ov && sorted.every(r => r.P >= 3)) {
+        const byName = {};
+        sorted.forEach(r => { byName[r.team] = r; });
+        const reordered = [];
+        ov.forEach(name => {
+          if (name && byName[name]) { reordered.push(byName[name]); delete byName[name]; }
+        });
+        // Append any team not named in the override (safety — shouldn't happen)
+        Object.values(byName).forEach(r => reordered.push(r));
+        if (reordered.length === sorted.length) displayOrder = reordered;
+      }
+
+      tbody.innerHTML = displayOrder.map((r, idx) => {
         const cls = idx < 2 ? 'qualified' : idx === 2 ? 'possible' : 'eliminated';
         return `<tr class="${cls}">
           <td class="team-col">${escapeHtml(r.team)}</td>
