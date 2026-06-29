@@ -1423,15 +1423,17 @@
 
     // FIFA bracket advancement structure — which match feeds into which
     const advancement = {
-      // R16
-      89: { home: 73, away: 75 },
-      90: { home: 74, away: 77 },
-      91: { home: 76, away: 78 },
+      // FIFA bracket advancement structure — which match feeds into which.
+      // R16 feeders use THIS sheet's R32 numbering (rows numbered by date), mapped
+      // to FIFA's bracket positions. QF onwards (97+) already match FIFA's numbers.
+      89: { home: 75, away: 78 },
+      90: { home: 73, away: 76 },
+      91: { home: 74, away: 77 },
       92: { home: 79, away: 80 },
       93: { home: 83, away: 84 },
-      94: { home: 81, away: 82 },
-      95: { home: 86, away: 88 },
-      96: { home: 85, away: 87 },
+      94: { home: 82, away: 81 },
+      95: { home: 87, away: 86 },
+      96: { home: 85, away: 88 },
       // QF
       97:  { home: 89, away: 90 },
       98:  { home: 93, away: 94 },
